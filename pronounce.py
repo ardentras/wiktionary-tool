@@ -29,11 +29,11 @@ class PronunciationHTMLParser(HTMLParser):
 
 def usage(retvalue = 1):
     print('''
-Usage: %s -[ph][w word][l language]
+Usage: %s -[ph][w word][s sentence][l language]
 
 Arguments
     -w/--word       the word to look up
-    -s/--sentence   a sentence to pronounce
+    -s/--sentence   a sentence to pronounce, wrapped in quotes
     -p/--pronounce  get pronunciation
     -l/--language   the language. defaults to russian
     -h/--help       print this dialogue
