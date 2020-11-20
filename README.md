@@ -37,3 +37,11 @@ print it. If no pronunciation is found, then it will output `[!!!]`.
 Russian, but it will attempt to process any language provided. Note that not all
 languages available in Wiktionary can be successfully queried by this tool, in
 particular those categorized under `Other` by Wiktionary.
+
+---
+
+## Dependencies
+
+- [Wiktionary API   (1.0.0)](https://en.wiktionary.org/api/rest_v1/)
+- [requests         (2.25.0)](https://pypi.org/project/requests/)
+- [pycountry        (20.7.3)](https://pypi.org/project/pycountry/)
