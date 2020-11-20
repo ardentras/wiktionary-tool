@@ -74,7 +74,7 @@ word = ''
 lang = 'russian'
 ipaNotFound = '[!!!]'
 doSentence = False
-pronounce = False
+pronounce = True
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "w:l:s:ph", ["word=", "language=", "sentence=", "pronounce", "help"])
