@@ -104,7 +104,7 @@ if pronounce:
         sentence = ''
         ipaSentence = ''
         for word in words:
-            ipas = pronounce_it(word, lang)
+            ipas = pronounce_it(punc_clean(word.lower()), lang)
             if len(ipas) > 0:
                 sentence = sentence + word.ljust(len(ipas[0]), ' ') + ' '
                 ipaSentence = ipaSentence + ipas[0].ljust(len(word), ' ') + ' '
@@ -116,7 +116,7 @@ if pronounce:
         print(ipaSentence)
     
     else:
-        ipas = pronounce_it(word, lang)
+        ipas = pronounce_it(punc_clean(word.lower()), lang)
         if len(ipas) > 0:
             print('Found', len(ipas), 'options:')
             for ipa in ipas:
