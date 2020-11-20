@@ -1,7 +1,16 @@
+#######################################
+# filename: define.py
+# author: Shaun Rasmusen
+# 
+
 import json
 import sys
 from html.parser import HTMLParser
 
+###############################################################################
+# DefinitionHTMLParser overrides HTMLParser to clear all HTML tags from a
+# definition from the Wiktionary API for easier readability.
+#
 class DefinitionHTMLParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -20,6 +29,12 @@ class DefinitionHTMLParser(HTMLParser):
     def clear(self):
         self.sentence = ''
 
+###############################################################################
+# define_it retrieves all definitions for the desired word from Wiktionary,
+# attempts to locate the desired language by trying to translate it to a
+# country code and if found, returns a newline delimited string containing each
+# part of speech, its definition(s), and example(s)
+#
 def define_it(word, lang="russian"):
     try:
         import requests
@@ -71,6 +86,10 @@ def define_it(word, lang="russian"):
 
     return block
 
+###############################################################################
+# processDefine preprocesses the input to be handled by define_it. It also does
+# some pretty printing around the definition.
+#
 def processDefine(word, lang = "russian"):
     print("Trying to define '%s'\n" % word)
     definition = define_it(word, lang)
