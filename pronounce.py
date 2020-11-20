@@ -20,7 +20,7 @@ class PronunciationHTMLParser(HTMLParser):
 
     def handle_data(self, data):
         if self.foundIPA:
-            if '[' in data:
+            if '[' in data or '/' in data:
                 self.ipas.append(data)
                 self.foundIPA = False
 
