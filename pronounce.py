@@ -4,6 +4,7 @@ import requests
 import getopt
 import sys
 import string
+import textwrap
 
 class PronunciationHTMLParser(HTMLParser):
     def __init__(self):
@@ -112,8 +113,17 @@ if pronounce:
                 sentence = sentence + word.ljust(len(ipaNotFound), ' ') + ' '
                 ipaSentence = ipaSentence + ipaNotFound.ljust(len(word), ' ') + ' '
         
-        print(sentence)
-        print(ipaSentence)
+        sentenceLines = textwrap.wrap(sentence, 80)
+        ipaSentenceLines = []
+        count = 0
+        for sentenceLine in sentenceLines:
+            ipaSentenceLines.append(ipaSentence[count:ipaSentence.find(' ', count + len(sentenceLine))])
+            count = count + len(ipaSentence[count:ipaSentence.find(' ', count + len(sentenceLine))]) + 1
+
+        for i in range(len(sentenceLines)):
+            print(sentenceLines[i])
+            print(ipaSentenceLines[i])
+            print()
     
     else:
         ipas = pronounce_it(punc_clean(word.lower()), lang)
@@ -124,7 +134,7 @@ if pronounce:
         else:
             print('Found no pronunciation guide.')
         
-    print("\nSee 'https://en.wiktionary.org/wiki/%s' for more details" % (word))
+        print("\nSee 'https://en.wiktionary.org/wiki/%s' for more details" % (word))
 
 else:
     usage()
