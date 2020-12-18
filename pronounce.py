@@ -1,6 +1,7 @@
 #######################################
 # filename: pronounce.py
 # author: Shaun Rasmusen
+# last modified: 11/19/2020
 # 
 
 import json

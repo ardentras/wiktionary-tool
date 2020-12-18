@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 #######################################
 # filename: wiki.py
 # author: Shaun Rasmusen
+# last modified: 12/18/2020
 # 
 
 import getopt

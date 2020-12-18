@@ -1,6 +1,7 @@
 #######################################
 # filename: define.py
 # author: Shaun Rasmusen
+# last modified: 12/18/2020
 # 
 
 import json
@@ -35,7 +36,7 @@ class DefinitionHTMLParser(HTMLParser):
 # country code and if found, returns a newline delimited string containing each
 # part of speech, its definition(s), and example(s)
 #
-def define_it(word, lang="russian"):
+def define_it(word, language):
     try:
         import requests
     except Exception:
@@ -43,22 +44,28 @@ def define_it(word, lang="russian"):
         print('Run \'python -m pip install requests\' and try again.')
         sys.exit(2)
 
-    try:
-        import pycountry
-    except Exception:
-        print('Cannot use this function without \'pycountry\' installed.')
-        print('Run \'python -m pip install pycountry\' and try again.')
-        sys.exit(2)
-
-    htmlParser = DefinitionHTMLParser()
     r = requests.get("https://en.wiktionary.org/api/rest_v1/page/definition/%s" % (word))
+    block = parseDefinitionResponse(json.loads(r.text), language)
 
-    thetree = json.loads(r.text)
+    # not yet supported
+    #if len(block) == 0:
+    #    r = requests.get("https://%s.wiktionary.org/api/rest_v1/page/definition/%s" % (language, word))
+    #    block = parseDefinitionResponse(json.loads(r.text), language)
+
+    return block
+
+###############################################################################
+# parseDefinitionResponse parses the response from the Wiktionary API to find a
+# valid definition for the desired language. If not found on English Wiktionary,
+# it will attempt to find the in language definition instead.
+#
+# block is returned with the definition if found, else empty.
+#
+def parseDefinitionResponse(thetree, language):
+    htmlParser = DefinitionHTMLParser()
     block = ''
     country_code = ''
 
-    language = pycountry.languages.get(name=lang)
-    
     try:
         if hasattr(language, 'alpha_2'):
             country_code = language.alpha_2 
@@ -91,11 +98,22 @@ def define_it(word, lang="russian"):
 # some pretty printing around the definition.
 #
 def processDefine(word, lang = "russian"):
+    try:
+        import pycountry
+    except Exception:
+        print('Cannot use this function without \'pycountry\' installed.')
+        print('Run \'python -m pip install pycountry\' and try again.')
+        sys.exit(2)
+
+    extra = ''
+
+    language = pycountry.languages.get(name=lang)
+
     print("Trying to define '%s'\n" % word)
-    definition = define_it(word, lang)
+    definition = define_it(word, language)
     if len(definition) > 0:
         print(definition)
+        print("\nSee 'https://en.wiktionary.org/wiki/%s' for more details" % (word))
     else:
         print('Found no definition.')
-
-    print("\nSee 'https://en.wiktionary.org/wiki/%s' for more details" % (word))
+        print("\nPerhaps try 'https://%s.wiktionary.org/wiki/%s' instead" % (language.alpha_2 if hasattr(language, 'alpha_2') else language.alpha_3, word))
