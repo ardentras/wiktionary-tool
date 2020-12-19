@@ -113,7 +113,7 @@ def processDefine(word, lang = "russian"):
     definition = define_it(word, language)
     if len(definition) > 0:
         print(definition)
-        print("\nSee 'https://en.wiktionary.org/wiki/%s' for more details" % (word))
+        print("\nSee 'https://en.wiktionary.org/wiki/%s#%s' for more details" % (word, lang.title()))
     else:
         print('Found no definition.')
-        print("\nPerhaps try 'https://%s.wiktionary.org/wiki/%s' instead" % (language.alpha_2 if hasattr(language, 'alpha_2') else language.alpha_3, word))
+        print("\nPerhaps try 'https://%s.wiktionary.org/wiki/%s#%s' instead" % (language.alpha_2 if hasattr(language, 'alpha_2') else language.alpha_3, word, lang.title()))
